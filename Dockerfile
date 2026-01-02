@@ -1,6 +1,14 @@
 FROM almalinux:9
-RUN dnf install nginx -y
-RUN rm -rf /usr/share/nginx/html/index.html
-ADD https://www.halcyontek.com/images/aws-cloud-banner.png /usr/share/nginx/html/index.html 
-RUN chmod +r /usr/share/nginx/html/index.html 
-CMD ["nginx","-g","daemon off"]
+
+RUN dnf install -y epel-release \
+    && dnf install -y nginx \
+    && dnf clean all
+
+RUN rm -f /usr/share/nginx/html/index.html
+
+ADD https://www.halcyontek.com/images/aws-cloud-banner.png \
+    /usr/share/nginx/html/index.png
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
